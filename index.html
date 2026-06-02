@@ -167,7 +167,7 @@
     .open-mail-btn { display: inline-block; padding: 9px 20px; background: var(--honey); color: var(--white); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; margin-top: 4px; }
     .open-mail-btn:hover { background: var(--honey-dark, #8f5a18); }
 
-    input[type=date] { min-width: 0; width: 100%; height: 42px; -webkit-appearance: none; appearance: none; }
+    input[type=date] { min-width: 0; width: 100%; max-width: 100%; height: 42px; -webkit-appearance: none; appearance: none; box-sizing: border-box; }
 
     @media (max-width: 540px) {
       .form-row { flex-direction: column; gap: 0; }
@@ -238,15 +238,13 @@
     <!-- DATES -->
     <div class="card">
       <h2>📅 Stay Dates</h2>
-      <div class="form-row">
-        <div class="field">
-          <label for="checkin">Check-in *</label>
-          <input type="date" id="checkin" name="checkin" required />
-        </div>
-        <div class="field">
-          <label for="checkout">Check-out *</label>
-          <input type="date" id="checkout" name="checkout" required />
-        </div>
+      <div class="field">
+        <label for="checkin">Check-in *</label>
+        <input type="date" id="checkin" name="checkin" required />
+      </div>
+      <div class="field">
+        <label for="checkout">Check-out *</label>
+        <input type="date" id="checkout" name="checkout" required />
       </div>
     </div>
 
@@ -378,7 +376,7 @@
 
 <script>
   // ── Config — edit these lines ──
-  const ADMIN_PASSWORD   = 'letmein';
+  const ADMIN_PASSWORD   = 'YinzerManorBook060126';
   const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
 
   // EmailJS — sign up free at emailjs.com, then fill these in:
