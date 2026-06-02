@@ -149,6 +149,8 @@
     .formspree-notice a { color: var(--slate); }
 
     /* CONFIRMATION PANEL */
+    .delete-req-btn { float: right; background: none; border: none; color: var(--text-light); font-size: 1.1rem; cursor: pointer; padding: 0 0 0 8px; line-height: 1; transition: color 0.2s; }
+    .delete-req-btn:hover { color: #8b3020; }
     .confirm-toggle-btn { margin-top: 12px; background: none; border: 1.5px solid var(--slate); color: var(--slate); border-radius: 4px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
     .confirm-toggle-btn:hover { background: var(--slate); color: var(--white); }
     .confirm-toggle-btn.open { background: var(--slate); color: var(--white); }
@@ -373,7 +375,7 @@
 
 <script>
   // ── Config — edit these lines ──
-  const ADMIN_PASSWORD   = 'letmein';
+  const ADMIN_PASSWORD   = 'YinzerManorBook060126';
   const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
 
   // EmailJS — sign up free at emailjs.com, then fill these in:
@@ -656,6 +658,7 @@
           </div>`).join('');
         return `
           <div class="request-card team-booking">
+            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
             <span class="req-type-badge badge-team">🥌 Curling Team</span>
             <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}${r.event_name ? ' <span style="font-weight:400;font-size:0.9rem;color:var(--text-mid)">· ' + escHtml(r.event_name) + '</span>' : ''}</div>
             <div class="req-meta">
@@ -683,6 +686,7 @@
       } else {
         return `
           <div class="request-card">
+            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
             <span class="req-type-badge badge-individual">Individual</span>
             <div class="req-name">${escHtml(r.first_name)} ${escHtml(r.last_name)}</div>
             <div class="req-meta">
@@ -799,6 +803,14 @@
   function openMailto(to, subject, body) {
     const link = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = link;
+  }
+
+  function deleteRequest(idx) {
+    if (!confirm('Delete this request?')) return;
+    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
+    requests.splice(idx, 1);
+    localStorage.setItem('yinzer_requests', JSON.stringify(requests));
+    renderRequests();
   }
 
   function clearRequests() {
