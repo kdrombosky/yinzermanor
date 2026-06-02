@@ -208,7 +208,10 @@
     </button>
   </div>
 
-  <form id="booking-form">
+  <form id="booking-form" data-netlify="true" name="booking">
+    <input type="hidden" name="form-name" value="booking" />
+    <input type="hidden" name="booking_type" value="" />
+    <input type="hidden" name="team_rooms_json" value="" />
 
     <!-- YOUR INFO -->
     <div class="card">
@@ -368,7 +371,7 @@
 
   <div id="requests-content">
     <h2>Booking Requests</h2>
-    <button class="clear-btn" onclick="clearRequests()">Clear all requests</button>
+    <button class="clear-btn" onclick="renderRequests()">↻ Refresh</button>
     <div id="requests-list"></div>
   </div>
 
@@ -376,8 +379,15 @@
 
 <script>
   // ── Config — edit these lines ──
-  const ADMIN_PASSWORD   = 'YinzerManorBook060126';
-  const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
+  const ADMIN_PASSWORD = 'YinzerManorBook060126';
+
+  // Netlify Forms setup:
+  // 1. Deploy to Netlify, then submit one test booking
+  // 2. Go to Netlify dashboard → your site → Forms → click "booking" → copy the ID from the URL
+  // 3. Go to User Settings → Applications → New access token → paste below
+  const NETLIFY_TOKEN   = 'YOUR_NETLIFY_TOKEN';
+  const NETLIFY_FORM_ID = 'YOUR_NETLIFY_FORM_ID';
+  const NETLIFY_READY   = !NETLIFY_TOKEN.includes('YOUR_') && !NETLIFY_FORM_ID.includes('YOUR_');
 
   // EmailJS — sign up free at emailjs.com, then fill these in:
   // 1. Create an Email Service (connect your Gmail/Outlook)
@@ -585,19 +595,19 @@
       });
     }
 
-    const existing = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
-    existing.unshift(data);
-    localStorage.setItem('yinzer_requests', JSON.stringify(existing));
-
-    if (!FORMSPREE_ACTION.includes('YOUR_FORM_ID')) {
-      try {
-        await fetch(FORMSPREE_ACTION, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-      } catch(err) { console.warn('Formspree error:', err); }
-    }
+    // Submit to Netlify Forms
+    const params = new URLSearchParams();
+    params.append('form-name', 'booking');
+    Object.entries(data).forEach(([k, v]) => {
+      if (k === 'team_rooms') {
+        params.append('team_rooms_json', JSON.stringify(v));
+      } else {
+        params.append(k, v ?? '');
+      }
+    });
+    try {
+      await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() });
+    } catch(err) { console.warn('Netlify Forms error:', err); }
 
     // Auto-reply to guest
     if (EMAILJS_ENABLED) {
@@ -635,9 +645,38 @@
     }
   }
 
-  function renderRequests() {
+  async function fetchSubmissions() {
+    if (!NETLIFY_READY) return [];
+    const resp = await fetch(
+      `https://api.netlify.com/api/v1/forms/${NETLIFY_FORM_ID}/submissions?per_page=100`,
+      { headers: { Authorization: `Bearer ${NETLIFY_TOKEN}` } }
+    );
+    if (!resp.ok) throw new Error(`Netlify API ${resp.status}`);
+    const subs = await resp.json();
+    return subs.map(s => {
+      const d = { ...s.data, _netlify_id: s.id, submitted_at: new Date(s.created_at).toLocaleString() };
+      if (d.team_rooms_json) { try { d.team_rooms = JSON.parse(d.team_rooms_json); } catch(e) {} }
+      return d;
+    });
+  }
+
+  async function renderRequests() {
     const list = document.getElementById('requests-list');
-    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
+    list.innerHTML = '<div class="empty-state">Loading…</div>';
+
+    let requests = [];
+    try {
+      requests = await fetchSubmissions();
+    } catch(err) {
+      list.innerHTML = `<div class="empty-state">Couldn't load requests — check your Netlify token and form ID.<br><small>${err.message}</small></div>`;
+      return;
+    }
+
+    if (!NETLIFY_READY) {
+      list.innerHTML = '<div class="empty-state">Add your NETLIFY_TOKEN and NETLIFY_FORM_ID to the script config to see submissions here.</div>';
+      return;
+    }
+
     if (requests.length === 0) {
       list.innerHTML = '<div class="empty-state">No booking requests yet.</div>';
       return;
@@ -659,7 +698,7 @@
           </div>`).join('');
         return `
           <div class="request-card team-booking">
-            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
+            <button class="delete-req-btn" onclick="deleteRequest('${r._netlify_id}')" title="Delete">✕</button>
             <span class="req-type-badge badge-team">🥌 Curling Team</span>
             <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}${r.event_name ? ' <span style="font-weight:400;font-size:0.9rem;color:var(--text-mid)">· ' + escHtml(r.event_name) + '</span>' : ''}</div>
             <div class="req-meta">
@@ -687,7 +726,7 @@
       } else {
         return `
           <div class="request-card">
-            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
+            <button class="delete-req-btn" onclick="deleteRequest('${r._netlify_id}')" title="Delete">✕</button>
             <span class="req-type-badge badge-individual">Individual</span>
             <div class="req-name">${escHtml(r.first_name)} ${escHtml(r.last_name)}</div>
             <div class="req-meta">
@@ -806,19 +845,21 @@
     window.location.href = link;
   }
 
-  function deleteRequest(idx) {
+  async function deleteRequest(netlifyId) {
     if (!confirm('Delete this request?')) return;
-    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
-    requests.splice(idx, 1);
-    localStorage.setItem('yinzer_requests', JSON.stringify(requests));
-    renderRequests();
+    try {
+      await fetch(`https://api.netlify.com/api/v1/submissions/${netlifyId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${NETLIFY_TOKEN}` }
+      });
+      renderRequests();
+    } catch(err) {
+      alert('Delete failed: ' + err.message);
+    }
   }
 
   function clearRequests() {
-    if (confirm('Clear all stored requests?')) {
-      localStorage.removeItem('yinzer_requests');
-      renderRequests();
-    }
+    alert('To clear all submissions, go to your Netlify dashboard → Forms → booking → delete from there.');
   }
 </script>
 
