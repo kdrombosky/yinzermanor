@@ -4,24 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yinzer Manor — Book a Stay</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rye&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     :root {
-      --bg: #f2ece3;
-      --slate: #4f6e8a;
-      --slate-dark: #354f66;
-      --slate-light: #dce8f0;
+      --bg: #f0f3f7;
+      --slate: #1e3a5f;
+      --slate-dark: #122440;
+      --slate-light: #dce6f0;
       --honey: #b8792a;
       --honey-light: #f5e6cc;
-      --stone: #8c8070;
-      --cream: #faf5ee;
-      --linen: #ede5d8;
-      --text: #2c2018;
-      --text-mid: #5a4a38;
-      --text-light: #8c7a68;
-      --white: #fffcf7;
-      --shadow: 0 2px 12px rgba(44,32,24,0.10);
-      --shadow-md: 0 4px 24px rgba(44,32,24,0.14);
+      --stone: #7a8a96;
+      --cream: #f7f9fc;
+      --linen: #dce6f0;
+      --text: #0f1f30;
+      --text-mid: #3a5068;
+      --text-light: #7a90a8;
+      --white: #fafdff;
+      --shadow: 0 2px 12px rgba(15,31,48,0.09);
+      --shadow-md: 0 4px 24px rgba(15,31,48,0.13);
       --gold: #c9a84c;
       --green: #3a6632;
       --green-light: #eef5ec;
@@ -29,18 +30,18 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* HEADER */
     header { background: var(--slate-dark); color: var(--cream); text-align: center; padding: 40px 24px 36px; position: relative; overflow: hidden; }
     header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-    header h1 { font-family: 'Rye', cursive; font-size: 3.4rem; font-weight: 400; color: var(--gold); letter-spacing: 2px; line-height: 1.1; position: relative; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-    .header-subtitle { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: var(--slate-light); margin-top: 8px; position: relative; }
+    header h1 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 600; font-style: italic; color: var(--gold); letter-spacing: 3px; line-height: 1.1; position: relative; text-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+    .header-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--slate-light); margin-top: 8px; position: relative; }
     .header-rule { width: 60px; height: 2px; background: var(--gold); margin: 14px auto; position: relative; }
 
     /* NAV */
     .nav-tabs { display: flex; justify-content: center; background: var(--white); box-shadow: 0 2px 8px rgba(44,32,24,0.08); padding: 6px 10px; gap: 4px; }
-    .nav-tab { padding: 10px 28px; color: var(--text-mid); cursor: pointer; font-size: 0.88rem; font-family: 'Source Sans 3', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border: none; background: none; border-radius: 4px; transition: all 0.2s; }
+    .nav-tab { padding: 10px 28px; color: var(--text-mid); cursor: pointer; font-size: 0.88rem; font-family: 'Jost', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border: none; background: none; border-radius: 4px; transition: all 0.2s; }
     .nav-tab:hover { background: var(--linen); color: var(--text); }
     .nav-tab.active { background: var(--slate); color: var(--cream); }
 
@@ -50,7 +51,7 @@
 
     /* BOOKING TYPE TOGGLE */
     .type-toggle { display: flex; background: var(--white); border-radius: 6px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 22px; }
-    .type-btn { flex: 1; padding: 16px 12px; border: none; background: none; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-weight: 600; color: var(--text-light); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .type-btn { flex: 1; padding: 16px 12px; border: none; background: none; cursor: pointer; font-family: 'Jost', sans-serif; font-weight: 600; color: var(--text-light); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
     .type-btn .type-icon { font-size: 1.5rem; }
     .type-btn .type-label { font-size: 0.88rem; }
     .type-btn .type-desc { font-size: 0.75rem; font-weight: 400; color: var(--text-light); }
@@ -61,14 +62,14 @@
 
     /* CARDS */
     .card { background: var(--white); border-radius: 6px; box-shadow: var(--shadow); padding: 26px 30px; margin-bottom: 16px; border-top: 3px solid var(--slate); }
-    .card h2 { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .card h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 
     /* FORM FIELDS */
     .form-row { display: flex; gap: 14px; }
     .form-row .field { flex: 1; }
     .field { margin-bottom: 16px; }
     label { display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--stone); margin-bottom: 5px; }
-    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=password], select, textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--linen); border-radius: 4px; background: var(--cream); font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; }
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=password], select, textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--linen); border-radius: 4px; background: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--slate); box-shadow: 0 0 0 3px rgba(79,110,138,0.12); }
     textarea { resize: vertical; min-height: 80px; }
 
@@ -78,7 +79,7 @@
     .room-card:hover { border-color: var(--slate); background: var(--white); }
     .room-card.selected { border-color: var(--slate); background: var(--slate-light); }
     .room-card input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
-    .room-name { font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .room-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
     .room-floor { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone); margin-bottom: 6px; }
     .room-details { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
     .room-tag { display: inline-block; background: var(--honey-light); color: var(--honey); border-radius: 3px; padding: 1px 7px; font-size: 0.7rem; font-weight: 600; margin: 3px 2px 0 0; }
@@ -97,7 +98,7 @@
     /* TEAM SELECTED ROOMS */
     .team-selected-block { border: 1.5px solid var(--slate-light); border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; background: var(--slate-light); }
     .team-selected-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-    .remove-room-btn { background: none; border: 1.5px solid var(--stone); color: var(--stone); border-radius: 4px; padding: 4px 10px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; margin-left: 8px; font-family: 'Source Sans 3', sans-serif; }
+    .remove-room-btn { background: none; border: 1.5px solid var(--stone); color: var(--stone); border-radius: 4px; padding: 4px 10px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; margin-left: 8px; font-family: 'Jost', sans-serif; }
     .remove-room-btn:hover { border-color: #8b3020; color: #8b3020; }
 
     /* TEAM AVAILABLE ROOMS */
@@ -107,45 +108,62 @@
     .add-room-plus { margin-top: 8px; font-size: 0.78rem; font-weight: 700; color: var(--slate); }
 
     /* SUBMIT */
-    .submit-btn { width: 100%; padding: 14px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(53,79,102,0.3); }
+    .submit-btn { width: 100%; padding: 14px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(53,79,102,0.3); }
     .submit-btn:hover { background: var(--slate-dark); box-shadow: 0 4px 16px rgba(53,79,102,0.4); }
     .submit-btn:disabled { background: #bbb; box-shadow: none; cursor: not-allowed; }
 
     /* SUCCESS */
     .success-box { display: none; background: var(--green-light); border: 1.5px solid #7aab6e; border-radius: 6px; padding: 24px; text-align: center; color: var(--green); margin-top: 16px; }
     .success-box .checkmark { font-size: 1.8rem; margin-bottom: 6px; }
-    .success-box p { font-size: 1rem; font-weight: 600; font-family: 'Lora', serif; font-style: italic; }
+    .success-box p { font-size: 1rem; font-weight: 600; font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
     /* ADMIN */
     .admin-gate { display: flex; flex-direction: column; align-items: center; padding: 48px 24px; }
-    .admin-gate h2 { font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 6px; }
+    .admin-gate h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 6px; }
     .admin-gate p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; }
     .admin-login-row { display: flex; gap: 8px; width: 100%; max-width: 320px; }
     .admin-login-row input { flex: 1; }
-    .admin-login-btn { padding: 10px 18px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .admin-login-btn { padding: 10px 18px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
     .admin-login-btn:hover { background: var(--slate-dark); }
     .admin-error { color: #8b3020; font-size: 0.85rem; margin-top: 8px; display: none; }
 
     /* REQUESTS */
     #requests-content { display: none; }
-    #requests-content h2 { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 18px; }
+    #requests-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 18px; }
     .request-card { background: var(--white); border-radius: 6px; box-shadow: var(--shadow); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--honey); }
     .request-card.team-booking { border-left-color: var(--slate); }
     .req-type-badge { display: inline-block; border-radius: 3px; padding: 2px 10px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
     .badge-individual { background: var(--honey-light); color: var(--honey); }
     .badge-team { background: var(--slate-light); color: var(--slate-dark); }
-    .req-name { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .req-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
     .req-meta { font-size: 0.86rem; color: var(--text-mid); line-height: 1.8; }
     .req-section { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linen); font-size: 0.84rem; color: var(--text-mid); line-height: 1.8; }
     .req-section strong { color: var(--text); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .empty-state { text-align: center; color: var(--text-light); font-family: 'Lora', serif; font-style: italic; padding: 56px 0; font-size: 1rem; }
-    .clear-btn { background: none; border: 1.5px solid var(--linen); color: var(--text-light); border-radius: 4px; padding: 6px 14px; font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-bottom: 18px; transition: all 0.2s; }
+    .empty-state { text-align: center; color: var(--text-light); font-family: 'Cormorant Garamond', serif; font-style: italic; padding: 56px 0; font-size: 1rem; }
+    .clear-btn { background: none; border: 1.5px solid var(--linen); color: var(--text-light); border-radius: 4px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-bottom: 18px; transition: all 0.2s; }
     .clear-btn:hover { border-color: var(--stone); color: var(--text-mid); }
 
     /* NOTICE */
     .formspree-notice { background: var(--honey-light); border: 1.5px solid #d4a460; border-radius: 6px; padding: 12px 16px; font-size: 0.85rem; color: #6b4515; margin-bottom: 18px; line-height: 1.6; }
     .formspree-notice strong { color: #4a2e08; }
     .formspree-notice a { color: var(--slate); }
+
+    /* CONFIRMATION PANEL */
+    .confirm-toggle-btn { margin-top: 12px; background: none; border: 1.5px solid var(--slate); color: var(--slate); border-radius: 4px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .confirm-toggle-btn:hover { background: var(--slate); color: var(--white); }
+    .confirm-toggle-btn.open { background: var(--slate); color: var(--white); }
+    .confirm-panel { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--linen); }
+    .confirm-panel.open { display: block; }
+    .confirm-panel h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 12px; }
+    .confirm-field { margin-bottom: 12px; }
+    .confirm-field label { display: block; font-size: 0.74rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--stone); margin-bottom: 4px; }
+    .confirm-field input, .confirm-field textarea { width: 100%; padding: 8px 11px; border: 1.5px solid var(--linen); border-radius: 4px; background: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--text); }
+    .confirm-field input:focus, .confirm-field textarea:focus { outline: none; border-color: var(--slate); }
+    .confirm-field textarea { resize: vertical; min-height: 70px; }
+    .confirm-door-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .confirm-door-row .confirm-field { flex: 1; min-width: 140px; }
+    .open-mail-btn { display: inline-block; padding: 9px 20px; background: var(--honey); color: var(--white); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; margin-top: 4px; }
+    .open-mail-btn:hover { background: var(--honey-dark, #8f5a18); }
 
     @media (max-width: 540px) {
       .form-row { flex-direction: column; gap: 0; }
@@ -292,9 +310,15 @@
     <div class="card" id="team-section" style="display:none">
       <h2>🥌 Team &amp; Room Assignment</h2>
 
-      <div class="field">
-        <label for="team_name">Team Name *</label>
-        <input type="text" id="team_name" name="team_name" placeholder="The Sweeping Sensations" />
+      <div class="form-row">
+        <div class="field">
+          <label for="team_name">Team Name *</label>
+          <input type="text" id="team_name" name="team_name" placeholder="The Sweeping Sensations" />
+        </div>
+        <div class="field">
+          <label for="event_name">Event Name</label>
+          <input type="text" id="event_name" name="event_name" placeholder="Spring Bonspiel 2025" />
+        </div>
       </div>
 
       <!-- Progress indicator -->
@@ -348,9 +372,23 @@
 </div>
 
 <script>
-  // ── Config — edit these two lines ──
-  const ADMIN_PASSWORD   = 'YinzerManorBook060126';
+  // ── Config — edit these lines ──
+  const ADMIN_PASSWORD   = 'letmein';
   const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
+
+  // EmailJS — sign up free at emailjs.com, then fill these in:
+  // 1. Create an Email Service (connect your Gmail/Outlook)
+  // 2. Create a Template with variables: {{to_name}}, {{to_email}}, {{checkin}}, {{checkout}}, {{booking_summary}}
+  //    The template should say something like:
+  //    "Hi {{to_name}}, we received your request for {{checkin}}–{{checkout}} ({{booking_summary}}).
+  //     We'll review and send a confirmation once your space is confirmed."
+  // 3. Paste your IDs below:
+  const EMAILJS_PUBLIC_KEY  = 'TPrLYXGnbuRihmlpk';
+  const EMAILJS_SERVICE_ID  = 'service_ky5z3kx';
+  const EMAILJS_TEMPLATE_ID = 'template_ce7ss19';
+  const EMAILJS_ENABLED = !EMAILJS_PUBLIC_KEY.includes('YOUR_');
+
+  if (EMAILJS_ENABLED) emailjs.init(EMAILJS_PUBLIC_KEY);
 
   // ── Room data ──
   const ROOMS = [
@@ -532,7 +570,8 @@
       data.room   = sel ? sel.value : 'No preference';
       data.guests = form.guests.value;
     } else {
-      data.team_name = document.getElementById('team_name').value;
+      data.team_name  = document.getElementById('team_name').value;
+      data.event_name = document.getElementById('event_name').value;
       data.team_rooms = teamSelectedRooms.map(name => {
         const room = getRoomData(name);
         const members = Array.from({length: room.beds}, (_, i) => {
@@ -555,6 +594,20 @@
           body: JSON.stringify(data),
         });
       } catch(err) { console.warn('Formspree error:', err); }
+    }
+
+    // Auto-reply to guest
+    if (EMAILJS_ENABLED) {
+      const summary = data.booking_type === 'team'
+        ? `${data.team_name}${data.event_name ? ' · ' + data.event_name : ''}`
+        : data.room || 'your room';
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_name:         data.first_name,
+        to_email:        data.email,
+        checkin:         formatDate(data.checkin),
+        checkout:        formatDate(data.checkout),
+        booking_summary: summary,
+      }).catch(err => console.warn('EmailJS error:', err));
     }
 
     form.reset();
@@ -586,7 +639,7 @@
       list.innerHTML = '<div class="empty-state">No booking requests yet.</div>';
       return;
     }
-    list.innerHTML = requests.map(r => {
+    list.innerHTML = requests.map((r, idx) => {
       const nights = r.checkin && r.checkout
         ? Math.max(0, Math.round((new Date(r.checkout) - new Date(r.checkin)) / 86400000))
         : null;
@@ -596,10 +649,15 @@
         const roomLines = (r.team_rooms || []).map(tr =>
           `<strong>${escHtml(tr.room)}</strong><br>&nbsp;&nbsp;${tr.members.map(escHtml).join(', ') || '—'}`
         ).join('<br>');
+        const doorFields = (r.team_rooms || []).map((tr, i) => `
+          <div class="confirm-field" style="flex:1;min-width:160px">
+            <label>Door Code — ${escHtml(tr.room)}</label>
+            <input type="text" id="door-${idx}-${i}" placeholder="e.g. 4829" />
+          </div>`).join('');
         return `
           <div class="request-card team-booking">
             <span class="req-type-badge badge-team">🥌 Curling Team</span>
-            <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}</div>
+            <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}${r.event_name ? ' <span style="font-weight:400;font-size:0.9rem;color:var(--text-mid)">· ' + escHtml(r.event_name) + '</span>' : ''}</div>
             <div class="req-meta">
               Contact: <strong>${escHtml(r.first_name)} ${escHtml(r.last_name)}</strong>
               &nbsp;·&nbsp; 📧 ${escHtml(r.email)}${r.phone ? ' &nbsp;·&nbsp; 📞 ' + escHtml(r.phone) : ''}<br>
@@ -607,6 +665,20 @@
             </div>
             <div class="req-section">${roomLines}${r.notes ? '<br><strong>Notes:</strong> ' + escHtml(r.notes) : ''}</div>
             <div style="margin-top:8px"><small style="opacity:0.5;font-size:0.78rem">${escHtml(r.submitted_at)}</small></div>
+            <button class="confirm-toggle-btn" onclick="toggleConfirm(this)">Send Confirmation Email</button>
+            <div class="confirm-panel">
+              <h4>Compose Confirmation</h4>
+              <div class="confirm-field">
+                <label>Arrival Instructions</label>
+                <textarea id="instr-${idx}" placeholder="e.g. Park in the driveway, come to the side door. We'll leave the porch light on.">${defaultInstructions()}</textarea>
+              </div>
+              <div class="confirm-door-row">${doorFields}</div>
+              <div class="confirm-field">
+                <label>Personal Note (optional)</label>
+                <textarea id="note-${idx}" placeholder="Can't wait to have you all!"></textarea>
+              </div>
+              <button class="open-mail-btn" onclick="openTeamConfirmEmail(${idx})">Open in Mail App</button>
+            </div>
           </div>`;
       } else {
         return `
@@ -620,9 +692,113 @@
               ${r.notes ? '<br>📝 ' + escHtml(r.notes) : ''}
             </div>
             <div style="margin-top:8px"><small style="opacity:0.5;font-size:0.78rem">${escHtml(r.submitted_at)}</small></div>
+            <button class="confirm-toggle-btn" onclick="toggleConfirm(this)">Send Confirmation Email</button>
+            <div class="confirm-panel">
+              <h4>Compose Confirmation</h4>
+              <div class="confirm-field">
+                <label>Arrival Instructions</label>
+                <textarea id="instr-${idx}" placeholder="e.g. Park in the driveway, come to the side door.">${defaultInstructions()}</textarea>
+              </div>
+              <div class="confirm-door-row">
+                <div class="confirm-field">
+                  <label>Door Code</label>
+                  <input type="text" id="door-${idx}-0" placeholder="e.g. 4829" />
+                </div>
+              </div>
+              <div class="confirm-field">
+                <label>Personal Note (optional)</label>
+                <textarea id="note-${idx}" placeholder="So excited to have you!"></textarea>
+              </div>
+              <button class="open-mail-btn" onclick="openIndividualConfirmEmail(${idx})">Open in Mail App</button>
+            </div>
           </div>`;
       }
     }).join('');
+  }
+
+  function defaultInstructions() {
+    return 'Park in the driveway. Come to the side entrance — we\'ll leave the porch light on. Head upstairs and your room will be on the right.';
+  }
+
+  function toggleConfirm(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  function openIndividualConfirmEmail(idx) {
+    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
+    const r = requests[idx];
+    if (!r) return;
+    const instr = document.getElementById(`instr-${idx}`)?.value || '';
+    const code  = document.getElementById(`door-${idx}-0`)?.value || '';
+    const note  = document.getElementById(`note-${idx}`)?.value || '';
+
+    const subject = `Your Yinzer Manor Stay is Confirmed!`;
+    const body = [
+      `Hi ${r.first_name},`,
+      ``,
+      `Great news — your stay at Yinzer Manor is confirmed!`,
+      ``,
+      `Check-in:  ${formatDate(r.checkin)}`,
+      `Check-out: ${formatDate(r.checkout)}`,
+      `Room:      ${r.room || '—'}`,
+      ``,
+      `How to Get In:`,
+      instr,
+      ``,
+      `Door Code: ${code || '(see below)'}`,
+      note ? `\n${note}` : '',
+      ``,
+      `Can't wait to have you!`,
+      ``,
+      `Warmly,`,
+      `Yinzer Manor`,
+    ].join('\n');
+
+    openMailto(r.email, subject, body);
+  }
+
+  function openTeamConfirmEmail(idx) {
+    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
+    const r = requests[idx];
+    if (!r) return;
+    const instr = document.getElementById(`instr-${idx}`)?.value || '';
+    const note  = document.getElementById(`note-${idx}`)?.value || '';
+
+    const roomLines = (r.team_rooms || []).map((tr, i) => {
+      const code = document.getElementById(`door-${idx}-${i}`)?.value || '—';
+      return `  ${tr.room} (${tr.members.join(', ')})\n  Door Code: ${code}`;
+    }).join('\n\n');
+
+    const subject = `${r.team_name || 'Your Team'} — Yinzer Manor Stay Confirmed!`;
+    const body = [
+      `Hi ${r.first_name},`,
+      ``,
+      `Great news — your team's stay at Yinzer Manor is confirmed!`,
+      ``,
+      `Check-in:  ${formatDate(r.checkin)}`,
+      `Check-out: ${formatDate(r.checkout)}`,
+      r.event_name ? `Event:     ${r.event_name}` : '',
+      ``,
+      `Room Assignments & Door Codes:`,
+      roomLines,
+      ``,
+      `How to Get In:`,
+      instr,
+      note ? `\n${note}` : '',
+      ``,
+      `Can't wait to have you all!`,
+      ``,
+      `Warmly,`,
+      `Yinzer Manor`,
+    ].filter(l => l !== undefined).join('\n');
+
+    openMailto(r.email, subject, body);
+  }
+
+  function openMailto(to, subject, body) {
+    const link = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = link;
   }
 
   function clearRequests() {
