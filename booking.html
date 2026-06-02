@@ -538,9 +538,9 @@
 <!-- ══════════════════════════════ BOOKING PAGE ══════════════════════════════ -->
 <div id="booking-page" class="page active">
 
-  <div class="formspree-notice">
+  <!-- <div class="formspree-notice">
     <strong>⚙️ Setup:</strong> Replace <code>YOUR_FORM_ID</code> in the form action below with your <a href="https://formspree.io" target="_blank">Formspree</a> form ID to receive email notifications.
-  </div>
+  </div> -->
 
   <!-- Booking type toggle -->
   <div class="type-toggle">
@@ -557,7 +557,7 @@
     </button>
   </div>
 
-  <form id="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+  <form id="booking-form" action="https://formspree.io/f/xkoedjaj" method="POST">
     <input type="hidden" name="booking_type" id="field-booking-type" value="individual" />
 
     <!-- ── YOUR INFO ── -->
@@ -790,8 +790,8 @@
   // ── Change this password by editing the line below ──
   const ADMIN_PASSWORD = 'letmein';
 
-  const FORMSPREE_ACTION = 'https://formspree.io/f/YOUR_FORM_ID';
-  const isFormspreeConfigured = !FORMSPREE_ACTION.includes('YOUR_FORM_ID');
+  const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
+  const isFormspreeConfigured = !FORMSPREE_ACTION.includes('xkoedjaj');
 
   let bookingType = 'individual';
   let adminUnlocked = false;
