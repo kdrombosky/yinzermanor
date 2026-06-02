@@ -4,174 +4,521 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yinzer Manor — Book a Stay</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rye&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f0f3f7;
-      --slate: #1e3a5f;
-      --slate-dark: #122440;
-      --slate-light: #dce6f0;
+      --bg: #f2ece3;
+      --slate: #4f6e8a;
+      --slate-dark: #354f66;
+      --slate-light: #dce8f0;
       --honey: #b8792a;
       --honey-light: #f5e6cc;
-      --stone: #7a8a96;
-      --cream: #f7f9fc;
-      --linen: #dce6f0;
-      --text: #0f1f30;
-      --text-mid: #3a5068;
-      --text-light: #7a90a8;
-      --white: #fafdff;
-      --shadow: 0 2px 12px rgba(15,31,48,0.09);
-      --shadow-md: 0 4px 24px rgba(15,31,48,0.13);
+      --stone: #8c8070;
+      --cream: #faf5ee;
+      --linen: #ede5d8;
+      --text: #2c2018;
+      --text-mid: #5a4a38;
+      --text-light: #8c7a68;
+      --white: #fffcf7;
+      --shadow: 0 2px 12px rgba(44,32,24,0.10);
+      --shadow-md: 0 4px 24px rgba(44,32,24,0.14);
       --gold: #c9a84c;
-      --green: #3a6632;
-      --green-light: #eef5ec;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-    /* HEADER */
-    header { background: var(--slate-dark); color: var(--cream); text-align: center; padding: 40px 24px 36px; position: relative; overflow: hidden; }
-    header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-    header h1 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 600; font-style: italic; color: var(--gold); letter-spacing: 3px; line-height: 1.1; position: relative; text-shadow: 0 2px 8px rgba(0,0,0,0.35); }
-    .header-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--slate-light); margin-top: 8px; position: relative; }
-    .header-rule { width: 60px; height: 2px; background: var(--gold); margin: 14px auto; position: relative; }
+    /* ── HEADER ── */
+    header {
+      background: var(--slate-dark);
+      color: var(--cream);
+      text-align: center;
+      padding: 40px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
 
-    /* NAV */
-    .nav-tabs { display: flex; justify-content: center; background: var(--white); box-shadow: 0 2px 8px rgba(44,32,24,0.08); padding: 6px 10px; gap: 4px; }
-    .nav-tab { padding: 10px 28px; color: var(--text-mid); cursor: pointer; font-size: 0.88rem; font-family: 'Jost', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border: none; background: none; border-radius: 4px; transition: all 0.2s; }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    header h1 {
+      font-family: 'Rye', cursive;
+      font-size: 3.4rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      position: relative;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .header-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--slate-light);
+      margin-top: 8px;
+      position: relative;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 14px auto 14px;
+      position: relative;
+    }
+
+    /* ── NAV ── */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(44,32,24,0.08);
+      padding: 6px 10px;
+      gap: 4px;
+    }
+
+    .nav-tab {
+      padding: 10px 28px;
+      color: var(--text-mid);
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      background: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
     .nav-tab:hover { background: var(--linen); color: var(--text); }
     .nav-tab.active { background: var(--slate); color: var(--cream); }
 
-    /* PAGES */
+    /* ── PAGES ── */
     .page { display: none; max-width: 700px; margin: 0 auto; padding: 32px 20px 64px; }
     .page.active { display: block; }
 
-    /* BOOKING TYPE TOGGLE */
-    .type-toggle { display: flex; background: var(--white); border-radius: 6px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 22px; }
-    .type-btn { flex: 1; padding: 16px 12px; border: none; background: none; cursor: pointer; font-family: 'Jost', sans-serif; font-weight: 600; color: var(--text-light); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    /* ── BOOKING TYPE TOGGLE ── */
+    .type-toggle {
+      display: flex;
+      background: var(--white);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .type-btn {
+      flex: 1;
+      padding: 16px 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
     .type-btn .type-icon { font-size: 1.5rem; }
     .type-btn .type-label { font-size: 0.88rem; }
     .type-btn .type-desc { font-size: 0.75rem; font-weight: 400; color: var(--text-light); }
+
     .type-btn:hover { background: var(--linen); color: var(--text-mid); }
     .type-btn.active { background: var(--slate); color: var(--cream); }
     .type-btn.active .type-desc { color: var(--slate-light); }
+
     .type-divider { width: 1px; background: var(--linen); }
 
-    /* CARDS */
-    .card { background: var(--white); border-radius: 6px; box-shadow: var(--shadow); padding: 26px 30px; margin-bottom: 16px; border-top: 3px solid var(--slate); }
-    .card h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 26px 30px;
+      margin-bottom: 16px;
+      border-top: 3px solid var(--slate);
+    }
 
-    /* FORM FIELDS */
+    .card h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--slate-dark);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .form-row { display: flex; gap: 14px; }
     .form-row .field { flex: 1; }
     .field { margin-bottom: 16px; }
-    label { display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--stone); margin-bottom: 5px; }
-    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=password], select, textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--linen); border-radius: 4px; background: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--slate); box-shadow: 0 0 0 3px rgba(79,110,138,0.12); }
+
+    label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      margin-bottom: 5px;
+    }
+
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=password], select, textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--linen);
+      border-radius: 4px;
+      background: var(--cream);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--slate);
+      box-shadow: 0 0 0 3px rgba(79,110,138,0.12);
+    }
+
     textarea { resize: vertical; min-height: 80px; }
 
-    /* INDIVIDUAL ROOM CARDS */
-    .room-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
-    .room-card { border: 2px solid var(--linen); border-radius: 6px; padding: 12px 14px; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; background: var(--cream); }
+    /* ── ROOM CARDS ── */
+    .room-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .room-card {
+      border: 2px solid var(--linen);
+      border-radius: 6px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      background: var(--cream);
+    }
+
     .room-card:hover { border-color: var(--slate); background: var(--white); }
     .room-card.selected { border-color: var(--slate); background: var(--slate-light); }
-    .room-card input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
-    .room-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-    .room-floor { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone); margin-bottom: 6px; }
-    .room-details { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
-    .room-tag { display: inline-block; background: var(--honey-light); color: var(--honey); border-radius: 3px; padding: 1px 7px; font-size: 0.7rem; font-weight: 600; margin: 3px 2px 0 0; }
+    .room-card.selected .room-name { color: var(--slate-dark); }
+
+    .room-card input[type=radio] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .room-name {
+      font-family: 'Lora', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .room-floor {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--stone);
+      margin-bottom: 6px;
+    }
+
+    .room-details {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .room-tag {
+      display: inline-block;
+      background: var(--honey-light);
+      color: var(--honey);
+      border-radius: 3px;
+      padding: 1px 7px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin: 3px 2px 0 0;
+    }
+
     .room-tag.shared { background: #e8e0f0; color: #5a3e82; }
-    .room-check { position: absolute; top: 10px; right: 10px; width: 18px; height: 18px; border: 2px solid var(--linen); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: transparent; background: var(--cream); transition: all 0.2s; }
-    .room-card.selected .room-check { background: var(--slate); border-color: var(--slate); color: white; }
 
-    /* TEAM PROGRESS */
-    .team-progress-bar { background: var(--linen); border-radius: 4px; padding: 10px 14px; margin-bottom: 18px; font-size: 0.88rem; font-weight: 600; color: var(--text-mid); display: flex; align-items: center; gap: 8px; }
-    .team-progress-bar.complete { background: var(--green-light); color: var(--green); border: 1px solid #7aab6e; }
-    .progress-pips { display: flex; gap: 4px; }
-    .pip { width: 10px; height: 10px; border-radius: 50%; background: var(--linen); border: 1.5px solid var(--stone); transition: all 0.2s; }
-    .pip.filled { background: var(--slate); border-color: var(--slate); }
-    .pip.filled.complete { background: var(--green); border-color: var(--green); }
+    .room-check {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 18px; height: 18px;
+      border: 2px solid var(--linen);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      color: transparent;
+      background: var(--cream);
+      transition: all 0.2s;
+    }
 
-    /* TEAM SELECTED ROOMS */
-    .team-selected-block { border: 1.5px solid var(--slate-light); border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; background: var(--slate-light); }
-    .team-selected-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-    .remove-room-btn { background: none; border: 1.5px solid var(--stone); color: var(--stone); border-radius: 4px; padding: 4px 10px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; margin-left: 8px; font-family: 'Jost', sans-serif; }
-    .remove-room-btn:hover { border-color: #8b3020; color: #8b3020; }
+    .room-card.selected .room-check {
+      background: var(--slate);
+      border-color: var(--slate);
+      color: white;
+    }
 
-    /* TEAM AVAILABLE ROOMS */
-    .add-room-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--stone); margin-bottom: 10px; }
-    .add-room-card { position: relative; }
-    .add-room-card:hover { border-color: var(--slate); background: var(--white); }
-    .add-room-plus { margin-top: 8px; font-size: 0.78rem; font-weight: 700; color: var(--slate); }
+    /* ── TEAM MEMBERS ── */
+    .team-rooms {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-    /* SUBMIT */
-    .submit-btn { width: 100%; padding: 14px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(53,79,102,0.3); }
+    .team-room-block {
+      border: 1.5px solid var(--linen);
+      border-radius: 6px;
+      padding: 16px 18px;
+      background: var(--cream);
+    }
+
+    .team-room-block h3 {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--slate-dark);
+      margin-bottom: 12px;
+    }
+
+    .member-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .member-row .field { margin-bottom: 0; flex: 1; }
+
+    /* ── SUBMIT ── */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--slate);
+      color: var(--cream);
+      border: none;
+      border-radius: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(53,79,102,0.3);
+    }
+
     .submit-btn:hover { background: var(--slate-dark); box-shadow: 0 4px 16px rgba(53,79,102,0.4); }
     .submit-btn:disabled { background: #bbb; box-shadow: none; cursor: not-allowed; }
 
-    /* SUCCESS */
-    .success-box { display: none; background: var(--green-light); border: 1.5px solid #7aab6e; border-radius: 6px; padding: 24px; text-align: center; color: var(--green); margin-top: 16px; }
+    /* ── SUCCESS ── */
+    .success-box {
+      display: none;
+      background: #eef5ec;
+      border: 1.5px solid #7aab6e;
+      border-radius: 6px;
+      padding: 24px;
+      text-align: center;
+      color: #3a6632;
+      margin-top: 16px;
+    }
+
     .success-box .checkmark { font-size: 1.8rem; margin-bottom: 6px; }
-    .success-box p { font-size: 1rem; font-weight: 600; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .success-box p { font-size: 1rem; font-weight: 600; font-family: 'Lora', serif; font-style: italic; }
 
-    /* ADMIN */
-    .admin-gate { display: flex; flex-direction: column; align-items: center; padding: 48px 24px; }
-    .admin-gate h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 6px; }
-    .admin-gate p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; }
-    .admin-login-row { display: flex; gap: 8px; width: 100%; max-width: 320px; }
-    .admin-login-row input { flex: 1; }
-    .admin-login-btn { padding: 10px 18px; background: var(--slate); color: var(--cream); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    /* ── ADMIN LOGIN ── */
+    .admin-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px;
+    }
+
+    .admin-gate h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--slate-dark);
+      margin-bottom: 6px;
+    }
+
+    .admin-gate p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .admin-login-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .admin-login-row input {
+      flex: 1;
+    }
+
+    .admin-login-btn {
+      padding: 10px 18px;
+      background: var(--slate);
+      color: var(--cream);
+      border: none;
+      border-radius: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
     .admin-login-btn:hover { background: var(--slate-dark); }
-    .admin-error { color: #8b3020; font-size: 0.85rem; margin-top: 8px; display: none; }
 
-    /* REQUESTS */
+    .admin-error {
+      color: #8b3020;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      display: none;
+    }
+
+    /* ── REQUESTS LIST ── */
     #requests-content { display: none; }
-    #requests-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 18px; }
-    .request-card { background: var(--white); border-radius: 6px; box-shadow: var(--shadow); padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--honey); }
+
+    #requests-content h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--slate-dark);
+      margin-bottom: 18px;
+    }
+
+    .request-card {
+      background: var(--white);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 18px 22px;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--honey);
+    }
+
     .request-card.team-booking { border-left-color: var(--slate); }
-    .req-type-badge { display: inline-block; border-radius: 3px; padding: 2px 10px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+
+    .req-type-badge {
+      display: inline-block;
+      border-radius: 3px;
+      padding: 2px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
     .badge-individual { background: var(--honey-light); color: var(--honey); }
     .badge-team { background: var(--slate-light); color: var(--slate-dark); }
-    .req-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
-    .req-meta { font-size: 0.86rem; color: var(--text-mid); line-height: 1.8; }
-    .req-section { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linen); font-size: 0.84rem; color: var(--text-mid); line-height: 1.8; }
-    .req-section strong { color: var(--text); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .empty-state { text-align: center; color: var(--text-light); font-family: 'Cormorant Garamond', serif; font-style: italic; padding: 56px 0; font-size: 1rem; }
-    .clear-btn { background: none; border: 1.5px solid var(--linen); color: var(--text-light); border-radius: 4px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-bottom: 18px; transition: all 0.2s; }
+
+    .req-name {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .req-meta {
+      font-size: 0.86rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+
+    .req-section {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--linen);
+      font-size: 0.84rem;
+      color: var(--text-mid);
+    }
+
+    .req-section strong {
+      color: var(--text);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-light);
+      font-family: 'Lora', serif;
+      font-style: italic;
+      padding: 56px 0;
+      font-size: 1rem;
+    }
+
+    .clear-btn {
+      background: none;
+      border: 1.5px solid var(--linen);
+      color: var(--text-light);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: all 0.2s;
+    }
+
     .clear-btn:hover { border-color: var(--stone); color: var(--text-mid); }
 
-    /* NOTICE */
-    .formspree-notice { background: var(--honey-light); border: 1.5px solid #d4a460; border-radius: 6px; padding: 12px 16px; font-size: 0.85rem; color: #6b4515; margin-bottom: 18px; line-height: 1.6; }
+    /* ── NOTICE ── */
+    .formspree-notice {
+      background: var(--honey-light);
+      border: 1.5px solid #d4a460;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #6b4515;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
     .formspree-notice strong { color: #4a2e08; }
     .formspree-notice a { color: var(--slate); }
-
-    /* CONFIRMATION PANEL */
-    .delete-req-btn { float: right; background: none; border: none; color: var(--text-light); font-size: 1.1rem; cursor: pointer; padding: 0 0 0 8px; line-height: 1; transition: color 0.2s; }
-    .delete-req-btn:hover { color: #8b3020; }
-    .confirm-toggle-btn { margin-top: 12px; background: none; border: 1.5px solid var(--slate); color: var(--slate); border-radius: 4px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
-    .confirm-toggle-btn:hover { background: var(--slate); color: var(--white); }
-    .confirm-toggle-btn.open { background: var(--slate); color: var(--white); }
-    .confirm-panel { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--linen); }
-    .confirm-panel.open { display: block; }
-    .confirm-panel h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--slate-dark); margin-bottom: 12px; }
-    .confirm-field { margin-bottom: 12px; }
-    .confirm-field label { display: block; font-size: 0.74rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--stone); margin-bottom: 4px; }
-    .confirm-field input, .confirm-field textarea { width: 100%; padding: 8px 11px; border: 1.5px solid var(--linen); border-radius: 4px; background: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--text); }
-    .confirm-field input:focus, .confirm-field textarea:focus { outline: none; border-color: var(--slate); }
-    .confirm-field textarea { resize: vertical; min-height: 70px; }
-    .confirm-door-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .confirm-door-row .confirm-field { flex: 1; min-width: 140px; }
-    .open-mail-btn { display: inline-block; padding: 9px 20px; background: var(--honey); color: var(--white); border: none; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; margin-top: 4px; }
-    .open-mail-btn:hover { background: var(--honey-dark, #8f5a18); }
 
     @media (max-width: 540px) {
       .form-row { flex-direction: column; gap: 0; }
       .room-grid { grid-template-columns: 1fr; }
       .card { padding: 20px 16px; }
       header h1 { font-size: 2.6rem; }
+      .member-row { flex-direction: column; gap: 0; }
     }
   </style>
 </head>
@@ -188,9 +535,14 @@
   <button class="nav-tab" onclick="showPage('admin', event)">Admin</button>
 </div>
 
-<!-- ══════════════════ BOOKING PAGE ══════════════════ -->
+<!-- ══════════════════════════════ BOOKING PAGE ══════════════════════════════ -->
 <div id="booking-page" class="page active">
 
+  <div class="formspree-notice">
+    <strong>⚙️ Setup:</strong> Replace <code>YOUR_FORM_ID</code> in the form action below with your <a href="https://formspree.io" target="_blank">Formspree</a> form ID to receive email notifications.
+  </div>
+
+  <!-- Booking type toggle -->
   <div class="type-toggle">
     <button class="type-btn active" id="btn-individual" onclick="setBookingType('individual')">
       <span class="type-icon">🛏</span>
@@ -201,13 +553,14 @@
     <button class="type-btn" id="btn-team" onclick="setBookingType('team')">
       <span class="type-icon">🥌</span>
       <span class="type-label">Curling Team</span>
-      <span class="type-desc">4 members, pick your rooms</span>
+      <span class="type-desc">Up to 4 people, 2 rooms</span>
     </button>
   </div>
 
-  <form id="booking-form">
+  <form id="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <input type="hidden" name="booking_type" id="field-booking-type" value="individual" />
 
-    <!-- YOUR INFO -->
+    <!-- ── YOUR INFO ── -->
     <div class="card">
       <h2>👋 Your Information</h2>
       <div class="form-row">
@@ -232,7 +585,7 @@
       </div>
     </div>
 
-    <!-- DATES -->
+    <!-- ── DATES ── -->
     <div class="card">
       <h2>📅 Stay Dates</h2>
       <div class="form-row">
@@ -247,57 +600,70 @@
       </div>
     </div>
 
-    <!-- INDIVIDUAL: ROOM SELECTION -->
+    <!-- ── INDIVIDUAL: ROOM SELECTION ── -->
     <div class="card" id="individual-section">
       <h2>🛏 Choose Your Room</h2>
       <div class="room-grid" id="room-grid-individual">
 
-        <label class="room-card" onclick="selectRoom(this)">
+        <label class="room-card" onclick="selectRoom(this, 'individual')">
           <input type="radio" name="room" value="Dave Schmel Suite" />
           <div class="room-check">✓</div>
           <div class="room-name">Dave Schmel Suite</div>
           <div class="room-floor">3rd Floor · Yinzer Manor</div>
           <div class="room-details">Queen bed</div>
-          <div style="margin-top:6px"><span class="room-tag">Largest TV</span></div>
+          <div style="margin-top:6px">
+            <span class="room-tag">Largest TV</span>
+          </div>
         </label>
 
-        <label class="room-card" onclick="selectRoom(this)">
+        <label class="room-card" onclick="selectRoom(this, 'individual')">
           <input type="radio" name="room" value="The Purple Room" />
           <div class="room-check">✓</div>
           <div class="room-name">The Purple Room</div>
           <div class="room-floor">3rd Floor</div>
           <div class="room-details">Queen bed + Full pullout</div>
-          <div style="margin-top:6px"><span class="room-tag">TV</span> <span class="room-tag">Largest Window Seat</span></div>
+          <div style="margin-top:6px">
+            <span class="room-tag">TV</span>
+            <span class="room-tag">Largest Window Seat</span>
+          </div>
         </label>
 
-        <label class="room-card" onclick="selectRoom(this)">
+        <label class="room-card" onclick="selectRoom(this, 'individual')">
           <input type="radio" name="room" value="The Craft Room" />
           <div class="room-check">✓</div>
           <div class="room-name">The Craft Room</div>
           <div class="room-floor">3rd Floor</div>
           <div class="room-details">Queen bed + Full pullout</div>
-          <div style="margin-top:6px"><span class="room-tag">TV</span> <span class="room-tag">PlayStation</span></div>
+          <div style="margin-top:6px">
+            <span class="room-tag">TV</span>
+            <span class="room-tag">PlayStation</span>
+          </div>
         </label>
 
-        <label class="room-card" onclick="selectRoom(this)">
+        <label class="room-card" onclick="selectRoom(this, 'individual')">
           <input type="radio" name="room" value="The Library" />
           <div class="room-check">✓</div>
           <div class="room-name">The Library</div>
           <div class="room-floor">2nd Floor</div>
           <div class="room-details">Twin daybed</div>
-          <div style="margin-top:6px"><span class="room-tag shared">Shared Bath w/ Amelia Room</span></div>
+          <div style="margin-top:6px">
+            <span class="room-tag shared">Shared Bath w/ Amelia Room</span>
+          </div>
         </label>
 
-        <label class="room-card" onclick="selectRoom(this)">
+        <label class="room-card" onclick="selectRoom(this, 'individual')">
           <input type="radio" name="room" value="The Amelia Room" />
           <div class="room-check">✓</div>
           <div class="room-name">The Amelia Room</div>
           <div class="room-floor">2nd Floor</div>
           <div class="room-details">Queen bed + Full pullout · Spacious</div>
-          <div style="margin-top:6px"><span class="room-tag shared">Shared Bath w/ Library</span></div>
+          <div style="margin-top:6px">
+            <span class="room-tag shared">Shared Bath w/ Library</span>
+          </div>
         </label>
 
       </div>
+
       <div class="field" style="margin-top:12px">
         <label for="guests">Number of Guests *</label>
         <select id="guests" name="guests" required>
@@ -308,32 +674,77 @@
       </div>
     </div>
 
-    <!-- TEAM: DYNAMIC ROOM ASSIGNMENT -->
+    <!-- ── TEAM: ROOM + MEMBER ASSIGNMENT ── -->
     <div class="card" id="team-section" style="display:none">
-      <h2>🥌 Team &amp; Room Assignment</h2>
+      <h2>🥌 Team Info &amp; Room Assignment</h2>
 
-      <div class="form-row">
-        <div class="field">
-          <label for="team_name">Team Name *</label>
-          <input type="text" id="team_name" name="team_name" placeholder="The Sweeping Sensations" />
-        </div>
-        <div class="field">
-          <label for="event_name">Event Name</label>
-          <input type="text" id="event_name" name="event_name" placeholder="Spring Bonspiel 2025" />
-        </div>
+      <div class="field">
+        <label for="team_name">Team Name *</label>
+        <input type="text" id="team_name" name="team_name" placeholder="The Sweeping Sensations" />
       </div>
 
-      <!-- Progress indicator -->
-      <div id="team-progress"></div>
+      <div class="team-rooms">
 
-      <!-- Selected rooms with member inputs -->
-      <div id="team-selected-rooms"></div>
+        <!-- Room 1 -->
+        <div class="team-room-block">
+          <h3>Room 1 — Choose &amp; assign up to 2 members</h3>
+          <div class="field">
+            <label>Select Room *</label>
+            <select name="team_room_1" id="team_room_1">
+              <option value="">Select a room…</option>
+              <option>Dave Schmel Suite (3rd Fl · Queen · Largest TV)</option>
+              <option>The Purple Room (3rd Fl · Queen + Pullout · Window Seat)</option>
+              <option>The Craft Room (3rd Fl · Queen + Pullout · PlayStation)</option>
+              <option>The Library (2nd Fl · Twin Daybed · Shared Bath)</option>
+              <option>The Amelia Room (2nd Fl · Queen + Pullout · Shared Bath)</option>
+            </select>
+          </div>
+          <div class="member-row">
+            <div class="field">
+              <label>Member 1 Name *</label>
+              <input type="text" name="team_member_1" placeholder="First Last" />
+            </div>
+          </div>
+          <div class="member-row">
+            <div class="field">
+              <label>Member 2 Name</label>
+              <input type="text" name="team_member_2" placeholder="First Last (optional)" />
+            </div>
+          </div>
+        </div>
 
-      <!-- Available rooms to add -->
-      <div id="team-available-rooms"></div>
+        <!-- Room 2 -->
+        <div class="team-room-block">
+          <h3>Room 2 — Choose &amp; assign up to 2 members</h3>
+          <div class="field">
+            <label>Select Room *</label>
+            <select name="team_room_2" id="team_room_2">
+              <option value="">Select a room…</option>
+              <option>Dave Schmel Suite (3rd Fl · Queen · Largest TV)</option>
+              <option>The Purple Room (3rd Fl · Queen + Pullout · Window Seat)</option>
+              <option>The Craft Room (3rd Fl · Queen + Pullout · PlayStation)</option>
+              <option>The Library (2nd Fl · Twin Daybed · Shared Bath)</option>
+              <option>The Amelia Room (2nd Fl · Queen + Pullout · Shared Bath)</option>
+            </select>
+          </div>
+          <div class="member-row">
+            <div class="field">
+              <label>Member 3 Name *</label>
+              <input type="text" name="team_member_3" placeholder="First Last" />
+            </div>
+          </div>
+          <div class="member-row">
+            <div class="field">
+              <label>Member 4 Name</label>
+              <input type="text" name="team_member_4" placeholder="First Last (optional)" />
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- NOTES -->
+    <!-- ── NOTES ── -->
     <div class="card">
       <h2>📝 Anything Else?</h2>
       <div class="field">
@@ -352,9 +763,10 @@
 
 </div>
 
-<!-- ══════════════════ ADMIN PAGE ══════════════════ -->
+<!-- ══════════════════════════════ ADMIN PAGE ══════════════════════════════ -->
 <div id="admin-page" class="page">
 
+  <!-- Login gate -->
   <div class="admin-gate" id="admin-gate">
     <h2>Admin Access</h2>
     <p>Enter the admin password to view booking requests.</p>
@@ -365,6 +777,7 @@
     <p class="admin-error" id="admin-error">Incorrect password. Try again.</p>
   </div>
 
+  <!-- Requests (shown after login) -->
   <div id="requests-content">
     <h2>Booking Requests</h2>
     <button class="clear-btn" onclick="clearRequests()">Clear all requests</button>
@@ -374,48 +787,14 @@
 </div>
 
 <script>
-  // ── Config — edit these lines ──
-  const ADMIN_PASSWORD   = 'YinzerManorBook060126';
-  const FORMSPREE_ACTION = 'https://formspree.io/f/xkoedjaj';
+  // ── Change this password by editing the line below ──
+  const ADMIN_PASSWORD = 'YinzerManorBook060126';
 
-  // EmailJS — sign up free at emailjs.com, then fill these in:
-  // 1. Create an Email Service (connect your Gmail/Outlook)
-  // 2. Create a Template with variables: {{to_name}}, {{to_email}}, {{checkin}}, {{checkout}}, {{booking_summary}}
-  //    The template should say something like:
-  //    "Hi {{to_name}}, we received your request for {{checkin}}–{{checkout}} ({{booking_summary}}).
-  //     We'll review and send a confirmation once your space is confirmed."
-  // 3. Paste your IDs below:
-  const EMAILJS_PUBLIC_KEY  = 'TPrLYXGnbuRihmlpk';
-  const EMAILJS_SERVICE_ID  = 'service_ky5z3kx';
-  const EMAILJS_TEMPLATE_ID = 'template_ce7ss19';
-  const EMAILJS_ENABLED = !EMAILJS_PUBLIC_KEY.includes('YOUR_');
+  const FORMSPREE_ACTION = 'https://formspree.io/f/YOUR_FORM_ID';
+  const isFormspreeConfigured = !FORMSPREE_ACTION.includes('YOUR_FORM_ID');
 
-  if (EMAILJS_ENABLED) emailjs.init(EMAILJS_PUBLIC_KEY);
-
-  // ── Room data ──
-  const ROOMS = [
-    { name: 'Dave Schmel Suite', beds: 1, floor: '3rd Floor',  desc: 'Queen bed',                         tags: [{ label: 'Largest TV',            cls: '' }] },
-    { name: 'The Purple Room',   beds: 2, floor: '3rd Floor',  desc: 'Queen bed + Full pullout',           tags: [{ label: 'TV', cls: '' }, { label: 'Largest Window Seat', cls: '' }] },
-    { name: 'The Craft Room',    beds: 2, floor: '3rd Floor',  desc: 'Queen bed + Full pullout',           tags: [{ label: 'TV', cls: '' }, { label: 'PlayStation', cls: '' }] },
-    { name: 'The Library',       beds: 1, floor: '2nd Floor',  desc: 'Twin daybed',                        tags: [{ label: 'Shared Bath w/ Amelia Room', cls: 'shared' }] },
-    { name: 'The Amelia Room',   beds: 2, floor: '2nd Floor',  desc: 'Queen bed + Full pullout · Spacious',tags: [{ label: 'Shared Bath w/ Library',      cls: 'shared' }] },
-  ];
-
-  // ── State ──
-  let bookingType       = 'individual';
-  let teamSelectedRooms = [];   // ordered array of room names
-  let adminUnlocked     = false;
-
-  // ── Helpers ──
-  function getRoomData(name) { return ROOMS.find(r => r.name === name); }
-  function totalTeamBeds() { return teamSelectedRooms.reduce((s, n) => s + (getRoomData(n)?.beds ?? 0), 0); }
-  function renderTags(tags) { return tags.map(t => `<span class="room-tag ${t.cls}">${t.label}</span>`).join(' '); }
-  function escHtml(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-  function formatDate(d) {
-    if (!d) return '—';
-    const [y, m, day] = d.split('-');
-    return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1] + ' ' + +day + ', ' + y;
-  }
+  let bookingType = 'individual';
+  let adminUnlocked = false;
 
   // ── Navigation ──
   function showPage(id, event) {
@@ -429,192 +808,95 @@
   // ── Booking type ──
   function setBookingType(type) {
     bookingType = type;
+    document.getElementById('field-booking-type').value = type;
+
     document.getElementById('btn-individual').classList.toggle('active', type === 'individual');
     document.getElementById('btn-team').classList.toggle('active', type === 'team');
     document.getElementById('individual-section').style.display = type === 'individual' ? '' : 'none';
     document.getElementById('team-section').style.display = type === 'team' ? '' : 'none';
-    document.getElementById('guests').required = (type === 'individual');
-    if (type === 'team') renderTeamUI();
+
+    // Update required fields
+    const roomRadios = document.querySelectorAll('#room-grid-individual input[type=radio]');
+    const guestsSelect = document.getElementById('guests');
+    const teamName = document.getElementById('team_name');
+    const teamRoom1 = document.getElementById('team_room_1');
+    const teamRoom2 = document.getElementById('team_room_2');
+
+    guestsSelect.required = (type === 'individual');
+    teamName.required = (type === 'team');
+    teamRoom1.required = (type === 'team');
+    teamRoom2.required = (type === 'team');
   }
 
-  // ── Individual room selection ──
-  function selectRoom(card) {
-    card.closest('.room-grid').querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+  // ── Room card selection ──
+  function selectRoom(card, group) {
+    const grid = card.closest('.room-grid');
+    grid.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     card.querySelector('input[type=radio]').checked = true;
-  }
-
-  // ── Team UI ──
-  function addTeamRoom(name) {
-    if (!teamSelectedRooms.includes(name)) {
-      teamSelectedRooms.push(name);
-      renderTeamUI();
-    }
-  }
-
-  function removeTeamRoom(name) {
-    teamSelectedRooms = teamSelectedRooms.filter(n => n !== name);
-    renderTeamUI();
-  }
-
-  function renderTeamUI() {
-    const beds = totalTeamBeds();
-    const complete = beds >= 4;
-
-    // Progress bar
-    const pips = Array.from({length: 4}, (_, i) =>
-      `<div class="pip ${i < beds ? 'filled' : ''} ${complete ? 'complete' : ''}"></div>`
-    ).join('');
-    document.getElementById('team-progress').innerHTML = `
-      <div class="team-progress-bar ${complete ? 'complete' : ''}">
-        <div class="progress-pips">${pips}</div>
-        ${complete
-          ? '✓ All 4 team members can be placed'
-          : `${beds} of 4 beds selected — need ${4 - beds} more`}
-      </div>`;
-
-    // Selected rooms
-    let memberCount = 0;
-    document.getElementById('team-selected-rooms').innerHTML = teamSelectedRooms.map(name => {
-      const room = getRoomData(name);
-      if (!room) return '';
-      const memberFields = Array.from({length: room.beds}, (_, i) => {
-        memberCount++;
-        const num = memberCount;
-        return `<div class="field" style="margin-bottom:${i < room.beds - 1 ? '10px' : '0'}">
-          <label>Member ${num} Name *</label>
-          <input type="text" data-team-member="${escHtml(name)}-${i+1}" placeholder="First Last" />
-        </div>`;
-      }).join('');
-      return `
-        <div class="team-selected-block">
-          <div class="team-selected-header">
-            <div>
-              <div class="room-name">${escHtml(name)}</div>
-              <div class="room-floor">${room.floor} · ${room.desc}</div>
-            </div>
-            <button type="button" class="remove-room-btn" onclick="removeTeamRoom('${escHtml(name)}')">Remove</button>
-          </div>
-          <div style="margin:4px 0 10px">${renderTags(room.tags)}</div>
-          ${memberFields}
-        </div>`;
-    }).join('');
-
-    // Available rooms to add
-    const available = ROOMS.filter(r => !teamSelectedRooms.includes(r.name));
-    const addEl = document.getElementById('team-available-rooms');
-
-    if (complete || available.length === 0) {
-      addEl.innerHTML = '';
-    } else {
-      addEl.innerHTML = `
-        <div class="add-room-label" style="margin-top:${teamSelectedRooms.length ? '16px' : '0'}">Add a room:</div>
-        <div class="room-grid">
-          ${available.map(room => `
-            <div class="room-card add-room-card" onclick="addTeamRoom('${escHtml(room.name)}')">
-              <div class="room-name">${escHtml(room.name)}</div>
-              <div class="room-floor">${room.floor}</div>
-              <div class="room-details">${room.desc}</div>
-              <div style="margin-top:6px">${renderTags(room.tags)}</div>
-              <div class="add-room-plus">+ ${room.beds} bed${room.beds > 1 ? 's' : ''}</div>
-            </div>`).join('')}
-        </div>`;
-    }
   }
 
   // ── Date validation ──
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('checkin').min = today;
   document.getElementById('checkout').min = today;
-  document.getElementById('checkin').addEventListener('change', function() {
+  document.getElementById('checkin').addEventListener('change', function () {
     document.getElementById('checkout').min = this.value;
   });
 
   // ── Form submission ──
-  document.getElementById('booking-form').addEventListener('submit', async function(e) {
+  const form = document.getElementById('booking-form');
+
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const form = e.target;
-
-    // Team validation
-    if (bookingType === 'team') {
-      if (totalTeamBeds() < 4) {
-        alert('Please select enough rooms for all 4 team members.');
-        return;
-      }
-      if (!document.getElementById('team_name').value.trim()) {
-        alert('Please enter your team name.');
-        return;
-      }
-      const memberInputs = document.querySelectorAll('[data-team-member]');
-      for (const inp of memberInputs) {
-        if (!inp.value.trim()) { inp.focus(); alert('Please fill in all team member names.'); return; }
-      }
-    }
-
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = 'Sending…';
 
-    const data = {
-      booking_type:  bookingType,
-      first_name:    form.first_name.value,
-      last_name:     form.last_name.value,
-      email:         form.email.value,
-      phone:         form.phone.value,
-      checkin:       form.checkin.value,
-      checkout:      form.checkout.value,
-      notes:         form.notes.value,
-      submitted_at:  new Date().toLocaleString(),
+    let data = {
+      booking_type: bookingType,
+      first_name: form.first_name.value,
+      last_name: form.last_name.value,
+      email: form.email.value,
+      phone: form.phone.value,
+      checkin: form.checkin.value,
+      checkout: form.checkout.value,
+      notes: form.notes.value,
+      submitted_at: new Date().toLocaleString()
     };
 
     if (bookingType === 'individual') {
-      const sel = document.querySelector('#room-grid-individual input[type=radio]:checked');
-      data.room   = sel ? sel.value : 'No preference';
+      const selected = document.querySelector('#room-grid-individual input[type=radio]:checked');
+      data.room = selected ? selected.value : 'No preference';
       data.guests = form.guests.value;
     } else {
-      data.team_name  = document.getElementById('team_name').value;
-      data.event_name = document.getElementById('event_name').value;
-      data.team_rooms = teamSelectedRooms.map(name => {
-        const room = getRoomData(name);
-        const members = Array.from({length: room.beds}, (_, i) => {
-          const inp = document.querySelector(`[data-team-member="${name}-${i+1}"]`);
-          return inp ? inp.value : '';
-        }).filter(Boolean);
-        return { room: name, members };
-      });
+      data.team_name = form.team_name.value;
+      data.team_room_1 = form.team_room_1.value;
+      data.team_room_2 = form.team_room_2.value;
+      data.team_member_1 = form.team_member_1.value;
+      data.team_member_2 = form.team_member_2.value;
+      data.team_member_3 = form.team_member_3.value;
+      data.team_member_4 = form.team_member_4.value;
     }
 
     const existing = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
     existing.unshift(data);
     localStorage.setItem('yinzer_requests', JSON.stringify(existing));
 
-    if (!FORMSPREE_ACTION.includes('YOUR_FORM_ID')) {
+    if (isFormspreeConfigured) {
       try {
         await fetch(FORMSPREE_ACTION, {
           method: 'POST',
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data)
         });
-      } catch(err) { console.warn('Formspree error:', err); }
-    }
-
-    // Auto-reply to guest
-    if (EMAILJS_ENABLED) {
-      const summary = data.booking_type === 'team'
-        ? `${data.team_name}${data.event_name ? ' · ' + data.event_name : ''}`
-        : data.room || 'your room';
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_name:         data.first_name,
-        to_email:        data.email,
-        checkin:         formatDate(data.checkin),
-        checkout:        formatDate(data.checkout),
-        booking_summary: summary,
-      }).catch(err => console.warn('EmailJS error:', err));
+      } catch (err) {
+        console.warn('Formspree error, saved locally only.', err);
+      }
     }
 
     form.reset();
-    document.querySelectorAll('#room-grid-individual .room-card').forEach(c => c.classList.remove('selected'));
-    teamSelectedRooms = [];
+    document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
     setBookingType('individual');
     btn.disabled = false;
     btn.textContent = 'Send Booking Request';
@@ -622,9 +904,10 @@
     setTimeout(() => document.getElementById('success-box').style.display = 'none', 5000);
   });
 
-  // ── Admin ──
+  // ── Admin login ──
   function adminLogin() {
-    if (document.getElementById('admin-password-input').value === ADMIN_PASSWORD) {
+    const val = document.getElementById('admin-password-input').value;
+    if (val === ADMIN_PASSWORD) {
       adminUnlocked = true;
       document.getElementById('admin-gate').style.display = 'none';
       document.getElementById('requests-content').style.display = 'block';
@@ -634,183 +917,68 @@
     }
   }
 
+  // ── Render requests ──
   function renderRequests() {
     const list = document.getElementById('requests-list');
     const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
+
     if (requests.length === 0) {
       list.innerHTML = '<div class="empty-state">No booking requests yet.</div>';
       return;
     }
-    list.innerHTML = requests.map((r, idx) => {
+
+    list.innerHTML = requests.map(r => {
       const nights = r.checkin && r.checkout
         ? Math.max(0, Math.round((new Date(r.checkout) - new Date(r.checkin)) / 86400000))
         : null;
-      const nightStr = nights !== null ? ` <em>(${nights} night${nights !== 1 ? 's' : ''})</em>` : '';
+      const isTeam = r.booking_type === 'team';
 
-      if (r.booking_type === 'team') {
-        const roomLines = (r.team_rooms || []).map(tr =>
-          `<strong>${escHtml(tr.room)}</strong><br>&nbsp;&nbsp;${tr.members.map(escHtml).join(', ') || '—'}`
-        ).join('<br>');
-        const doorFields = (r.team_rooms || []).map((tr, i) => `
-          <div class="confirm-field" style="flex:1;min-width:160px">
-            <label>Door Code — ${escHtml(tr.room)}</label>
-            <input type="text" id="door-${idx}-${i}" placeholder="e.g. 4829" />
-          </div>`).join('');
+      if (isTeam) {
+        const members = [r.team_member_1, r.team_member_2, r.team_member_3, r.team_member_4].filter(m => m && m.trim());
         return `
           <div class="request-card team-booking">
-            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
             <span class="req-type-badge badge-team">🥌 Curling Team</span>
-            <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}${r.event_name ? ' <span style="font-weight:400;font-size:0.9rem;color:var(--text-mid)">· ' + escHtml(r.event_name) + '</span>' : ''}</div>
+            <div class="req-name">${escHtml(r.team_name || 'Unnamed Team')}</div>
             <div class="req-meta">
               Contact: <strong>${escHtml(r.first_name)} ${escHtml(r.last_name)}</strong>
               &nbsp;·&nbsp; 📧 ${escHtml(r.email)}${r.phone ? ' &nbsp;·&nbsp; 📞 ' + escHtml(r.phone) : ''}<br>
-              📅 ${formatDate(r.checkin)} → ${formatDate(r.checkout)}${nightStr}
+              📅 ${formatDate(r.checkin)} → ${formatDate(r.checkout)}${nights !== null ? ' <em>(' + nights + ' night' + (nights !== 1 ? 's' : '') + ')</em>' : ''}
             </div>
-            <div class="req-section">${roomLines}${r.notes ? '<br><strong>Notes:</strong> ' + escHtml(r.notes) : ''}</div>
+            <div class="req-section">
+              <strong>Room 1:</strong> ${escHtml(r.team_room_1 || '—')}<br>
+              &nbsp;&nbsp;${[r.team_member_1, r.team_member_2].filter(Boolean).map(escHtml).join(', ') || '—'}<br>
+              <strong>Room 2:</strong> ${escHtml(r.team_room_2 || '—')}<br>
+              &nbsp;&nbsp;${[r.team_member_3, r.team_member_4].filter(Boolean).map(escHtml).join(', ') || '—'}
+              ${r.notes ? '<br><strong>Notes:</strong> ' + escHtml(r.notes) : ''}
+            </div>
             <div style="margin-top:8px"><small style="opacity:0.5;font-size:0.78rem">${escHtml(r.submitted_at)}</small></div>
-            <button class="confirm-toggle-btn" onclick="toggleConfirm(this)">Send Confirmation Email</button>
-            <div class="confirm-panel">
-              <h4>Compose Confirmation</h4>
-              <div class="confirm-field">
-                <label>Arrival Instructions</label>
-                <textarea id="instr-${idx}" placeholder="e.g. Park in the driveway, come to the side door. We'll leave the porch light on.">${defaultInstructions()}</textarea>
-              </div>
-              <div class="confirm-door-row">${doorFields}</div>
-              <div class="confirm-field">
-                <label>Personal Note (optional)</label>
-                <textarea id="note-${idx}" placeholder="Can't wait to have you all!"></textarea>
-              </div>
-              <button class="open-mail-btn" onclick="openTeamConfirmEmail(${idx})">Open in Mail App</button>
-            </div>
           </div>`;
       } else {
         return `
           <div class="request-card">
-            <button class="delete-req-btn" onclick="deleteRequest(${idx})" title="Delete">✕</button>
             <span class="req-type-badge badge-individual">Individual</span>
             <div class="req-name">${escHtml(r.first_name)} ${escHtml(r.last_name)}</div>
             <div class="req-meta">
               📧 ${escHtml(r.email)}${r.phone ? ' &nbsp;·&nbsp; 📞 ' + escHtml(r.phone) : ''}<br>
-              📅 ${formatDate(r.checkin)} → ${formatDate(r.checkout)}${nightStr}<br>
+              📅 ${formatDate(r.checkin)} → ${formatDate(r.checkout)}${nights !== null ? ' <em>(' + nights + ' night' + (nights !== 1 ? 's' : '') + ')</em>' : ''}<br>
               👥 ${escHtml(r.guests || '?')} guest${r.guests !== '1' ? 's' : ''} &nbsp;·&nbsp; 🛏 ${escHtml(r.room || '—')}
               ${r.notes ? '<br>📝 ' + escHtml(r.notes) : ''}
             </div>
             <div style="margin-top:8px"><small style="opacity:0.5;font-size:0.78rem">${escHtml(r.submitted_at)}</small></div>
-            <button class="confirm-toggle-btn" onclick="toggleConfirm(this)">Send Confirmation Email</button>
-            <div class="confirm-panel">
-              <h4>Compose Confirmation</h4>
-              <div class="confirm-field">
-                <label>Arrival Instructions</label>
-                <textarea id="instr-${idx}" placeholder="e.g. Park in the driveway, come to the side door.">${defaultInstructions()}</textarea>
-              </div>
-              <div class="confirm-door-row">
-                <div class="confirm-field">
-                  <label>Door Code</label>
-                  <input type="text" id="door-${idx}-0" placeholder="e.g. 4829" />
-                </div>
-              </div>
-              <div class="confirm-field">
-                <label>Personal Note (optional)</label>
-                <textarea id="note-${idx}" placeholder="So excited to have you!"></textarea>
-              </div>
-              <button class="open-mail-btn" onclick="openIndividualConfirmEmail(${idx})">Open in Mail App</button>
-            </div>
           </div>`;
       }
     }).join('');
   }
 
-  function defaultInstructions() {
-    return 'Park in the driveway. Come to the side entrance — we\'ll leave the porch light on. Head upstairs and your room will be on the right.';
+  function escHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function toggleConfirm(btn) {
-    btn.classList.toggle('open');
-    btn.nextElementSibling.classList.toggle('open');
-  }
-
-  function openIndividualConfirmEmail(idx) {
-    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
-    const r = requests[idx];
-    if (!r) return;
-    const instr = document.getElementById(`instr-${idx}`)?.value || '';
-    const code  = document.getElementById(`door-${idx}-0`)?.value || '';
-    const note  = document.getElementById(`note-${idx}`)?.value || '';
-
-    const subject = `Your Yinzer Manor Stay is Confirmed!`;
-    const body = [
-      `Hi ${r.first_name},`,
-      ``,
-      `Great news — your stay at Yinzer Manor is confirmed!`,
-      ``,
-      `Check-in:  ${formatDate(r.checkin)}`,
-      `Check-out: ${formatDate(r.checkout)}`,
-      `Room:      ${r.room || '—'}`,
-      ``,
-      `How to Get In:`,
-      instr,
-      ``,
-      `Door Code: ${code || '(see below)'}`,
-      note ? `\n${note}` : '',
-      ``,
-      `Can't wait to have you!`,
-      ``,
-      `Warmly,`,
-      `Yinzer Manor`,
-    ].join('\n');
-
-    openMailto(r.email, subject, body);
-  }
-
-  function openTeamConfirmEmail(idx) {
-    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
-    const r = requests[idx];
-    if (!r) return;
-    const instr = document.getElementById(`instr-${idx}`)?.value || '';
-    const note  = document.getElementById(`note-${idx}`)?.value || '';
-
-    const roomLines = (r.team_rooms || []).map((tr, i) => {
-      const code = document.getElementById(`door-${idx}-${i}`)?.value || '—';
-      return `  ${tr.room} (${tr.members.join(', ')})\n  Door Code: ${code}`;
-    }).join('\n\n');
-
-    const subject = `${r.team_name || 'Your Team'} — Yinzer Manor Stay Confirmed!`;
-    const body = [
-      `Hi ${r.first_name},`,
-      ``,
-      `Great news — your team's stay at Yinzer Manor is confirmed!`,
-      ``,
-      `Check-in:  ${formatDate(r.checkin)}`,
-      `Check-out: ${formatDate(r.checkout)}`,
-      r.event_name ? `Event:     ${r.event_name}` : '',
-      ``,
-      `Room Assignments & Door Codes:`,
-      roomLines,
-      ``,
-      `How to Get In:`,
-      instr,
-      note ? `\n${note}` : '',
-      ``,
-      `Can't wait to have you all!`,
-      ``,
-      `Warmly,`,
-      `Yinzer Manor`,
-    ].filter(l => l !== undefined).join('\n');
-
-    openMailto(r.email, subject, body);
-  }
-
-  function openMailto(to, subject, body) {
-    const link = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = link;
-  }
-
-  function deleteRequest(idx) {
-    if (!confirm('Delete this request?')) return;
-    const requests = JSON.parse(localStorage.getItem('yinzer_requests') || '[]');
-    requests.splice(idx, 1);
-    localStorage.setItem('yinzer_requests', JSON.stringify(requests));
-    renderRequests();
+  function formatDate(d) {
+    if (!d) return '—';
+    const [y, m, day] = d.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[+m - 1]} ${+day}, ${y}`;
   }
 
   function clearRequests() {
