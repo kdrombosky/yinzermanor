@@ -32,6 +32,17 @@
 
     body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
+    /* SITE BANNER */
+    .site-banner { display: none; align-items: center; justify-content: center; gap: 14px; background: var(--honey); color: var(--white); text-align: center; padding: 12px 46px 12px 20px; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; line-height: 1.45; position: relative; }
+    .site-banner-close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--white); font-size: 1.05rem; line-height: 1; cursor: pointer; opacity: 0.85; padding: 6px; }
+    .site-banner-close:hover { opacity: 1; }
+    .banner-toggle-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .banner-toggle-row input[type=checkbox] { width: auto; accent-color: var(--slate); }
+    .banner-toggle-row label { margin: 0; text-transform: none; font-weight: 600; font-size: 0.88rem; letter-spacing: 0; color: var(--text-mid); cursor: pointer; }
+    .banner-status { margin-top: 10px; font-size: 0.85rem; color: var(--text-mid); min-height: 1.2em; }
+    .banner-status.error { color: #8b3020; }
+    .banner-status.success { color: var(--green); }
+
     /* HEADER */
     header { background: var(--slate-dark); color: var(--cream); text-align: center; padding: 40px 24px 36px; position: relative; overflow: hidden; }
     header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
@@ -179,6 +190,11 @@
   </style>
 </head>
 <body>
+
+<div id="site-banner" class="site-banner" role="status">
+  <span id="site-banner-text"></span>
+  <button class="site-banner-close" onclick="dismissBanner()" aria-label="Dismiss banner">✕</button>
+</div>
 
 <header>
   <h1>Yinzer Manor</h1>
@@ -370,6 +386,20 @@
   </div>
 
   <div id="requests-content">
+    <div class="card">
+      <h2>📣 Site Banner</h2>
+      <div class="banner-toggle-row">
+        <input type="checkbox" id="banner-enabled-input" />
+        <label for="banner-enabled-input">Show banner on homepage</label>
+      </div>
+      <div class="field">
+        <label for="banner-message-input">Banner Message</label>
+        <textarea id="banner-message-input" maxlength="200" placeholder="e.g. Now booking fall weekends — reserve early!"></textarea>
+      </div>
+      <button class="admin-login-btn" onclick="saveBanner()">Save Banner</button>
+      <p class="banner-status" id="banner-status"></p>
+    </div>
+
     <h2>Booking Requests</h2>
     <button class="clear-btn" onclick="renderRequests()">↻ Refresh</button>
     <div id="requests-list"></div>
@@ -380,6 +410,23 @@
 <script>
   // ── Config — edit these lines ──
   const ADMIN_PASSWORD = 'YinzerManorBook060126';
+
+  // Site banner — stored as banner.json at the repo root, so every visitor's
+  // browser can read it with no login and no API calls. Saving from this
+  // Admin tab posts to a Netlify Function (netlify/functions/save-banner.js),
+  // which commits the updated file to GitHub using a token that lives only
+  // in Netlify's environment variables — never in this file, never shipped
+  // to visitors' browsers. Netlify then rebuilds and redeploys automatically
+  // (usually live within about a minute).
+  //
+  // One-time setup, in your Netlify site dashboard → Site configuration →
+  // Environment variables → Add a variable:
+  //   GITHUB_TOKEN    = a fine-grained GitHub PAT, scoped to just the
+  //                     yinzermanor repo, with Contents: Read and write
+  //                     (GitHub → Settings → Developer settings →
+  //                     Personal access tokens → Fine-grained tokens)
+  //   ADMIN_PASSWORD  = the same value as ADMIN_PASSWORD above
+  // Redeploy after adding them so the function picks them up.
 
   // Netlify Forms setup:
   // 1. Deploy to Netlify, then submit one test booking
@@ -633,6 +680,69 @@
     setTimeout(() => document.getElementById('success-box').style.display = 'none', 5000);
   });
 
+  // ── Site Banner ──
+  function bannerDismissKey(message) { return 'bannerDismissed:' + message; }
+
+  async function loadBanner() {
+    try {
+      const resp = await fetch('/banner.json', { cache: 'no-store' });
+      if (!resp.ok) return;
+      showSiteBanner(await resp.json());
+    } catch (err) {
+      console.warn('Banner load failed:', err);
+    }
+  }
+
+  function showSiteBanner(data) {
+    const bar = document.getElementById('site-banner');
+    const message = (data && data.message || '').trim();
+    if (!data || !data.enabled || !message) { bar.style.display = 'none'; return; }
+    try {
+      if (sessionStorage.getItem(bannerDismissKey(message)) === '1') { bar.style.display = 'none'; return; }
+    } catch (err) { /* storage unavailable — just show it */ }
+    document.getElementById('site-banner-text').textContent = message;
+    bar.style.display = 'flex';
+  }
+
+  function dismissBanner() {
+    const message = document.getElementById('site-banner-text').textContent;
+    try { sessionStorage.setItem(bannerDismissKey(message), '1'); } catch (err) {}
+    document.getElementById('site-banner').style.display = 'none';
+  }
+
+  async function prefillBannerForm() {
+    try {
+      const resp = await fetch('/banner.json', { cache: 'no-store' });
+      const data = resp.ok ? await resp.json() : { enabled: false, message: '' };
+      document.getElementById('banner-enabled-input').checked = !!data.enabled;
+      document.getElementById('banner-message-input').value = data.message || '';
+    } catch (err) {
+      console.warn('Could not load current banner for editing:', err);
+    }
+  }
+
+  async function saveBanner() {
+    const statusEl = document.getElementById('banner-status');
+    statusEl.className = 'banner-status';
+    const enabled = document.getElementById('banner-enabled-input').checked;
+    const message = document.getElementById('banner-message-input').value.trim();
+    statusEl.textContent = 'Saving\u2026';
+    try {
+      const resp = await fetch('/.netlify/functions/save-banner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled, message, password: ADMIN_PASSWORD })
+      });
+      const result = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(result.error || `Request failed (${resp.status})`);
+      statusEl.textContent = 'Saved! It\'ll go live in about a minute once Netlify rebuilds.';
+      statusEl.className = 'banner-status success';
+    } catch (err) {
+      statusEl.textContent = 'Save failed: ' + err.message;
+      statusEl.className = 'banner-status error';
+    }
+  }
+
   // ── Admin ──
   function adminLogin() {
     if (document.getElementById('admin-password-input').value === ADMIN_PASSWORD) {
@@ -640,6 +750,7 @@
       document.getElementById('admin-gate').style.display = 'none';
       document.getElementById('requests-content').style.display = 'block';
       renderRequests();
+      prefillBannerForm();
     } else {
       document.getElementById('admin-error').style.display = 'block';
     }
@@ -861,6 +972,9 @@
   function clearRequests() {
     alert('To clear all submissions, go to your Netlify dashboard → Forms → booking → delete from there.');
   }
+
+  // ── Run on every page load ──
+  loadBanner();
 </script>
 
 </body>
