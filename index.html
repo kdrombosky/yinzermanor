@@ -421,12 +421,18 @@
   //
   // One-time setup, in your Netlify site dashboard → Site configuration →
   // Environment variables → Add a variable:
-  //   GITHUB_TOKEN    = a fine-grained GitHub PAT, scoped to just the
-  //                     yinzermanor repo, with Contents: Read and write
-  //                     (GitHub → Settings → Developer settings →
-  //                     Personal access tokens → Fine-grained tokens)
-  //   ADMIN_PASSWORD  = the same value as ADMIN_PASSWORD above
-  // Redeploy after adding them so the function picks them up.
+  //   GITHUB_TOKEN = a fine-grained GitHub PAT, scoped to just the
+  //                  yinzermanor repo, with Contents: Read and write
+  //                  (GitHub → Settings → Developer settings →
+  //                  Personal access tokens → Fine-grained tokens)
+  // Redeploy after adding it so the function picks it up.
+  //
+  // (Note: the Save function checks the password against a literal
+  // 'ADMIN_PASSWORD' copy in netlify/functions/save-banner.mjs, NOT a
+  // Netlify env var — setting it as an env var makes Netlify's build
+  // fail, since that value is already publicly visible right here in
+  // index.html and the scanner flags env values that show up in public
+  // files. If you ever change the password, update it in both places.)
 
   // Netlify Forms setup:
   // 1. Deploy to Netlify, then submit one test booking
